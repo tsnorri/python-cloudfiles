@@ -352,10 +352,10 @@ class Object(object):
                 http.send(buff)
                 if verify and not self._etag_override:
                     running_checksum.update(buff)
-                buff = data.read(4096)
                 transfered += len(buff)
                 if callable(callback):
                     callback(transfered, self.size)
+                buff = data.read(4096)
             response = http.getresponse()
             buff = response.read()
         except timeout, err:
