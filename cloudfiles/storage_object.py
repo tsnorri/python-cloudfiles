@@ -13,6 +13,7 @@ try:
 except ImportError:
     from md5 import md5
 import StringIO
+import cStringIO
 import mimetypes
 import os
 
@@ -307,6 +308,8 @@ class Object(object):
         """
         self._name_check()
         if isinstance(data, StringIO.StringIO):
+            pass
+        elif isinstance(data, cStringIO.InputType):
             pass
         elif isinstance(data, file):
             # pylint: disable-msg=E1101
