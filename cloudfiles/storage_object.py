@@ -306,7 +306,9 @@ class Object(object):
         @type callback: callable(transferred, size)
         """
         self._name_check()
-        if isinstance(data, file):
+        if isinstance(data, StringIO.StringIO):
+            pass
+        elif isinstance(data, file):
             # pylint: disable-msg=E1101
             try:
                 data.flush()
