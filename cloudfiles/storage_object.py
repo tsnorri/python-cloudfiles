@@ -311,6 +311,8 @@ class Object(object):
             pass
         elif isinstance(data, cStringIO.InputType):
             pass
+        elif isinstance(data, cStringIO.OutputType):
+            pass
         elif isinstance(data, file):
             # pylint: disable-msg=E1101
             try:
