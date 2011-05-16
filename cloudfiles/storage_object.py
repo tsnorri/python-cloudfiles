@@ -307,21 +307,24 @@ class Object(object):
         @type callback: callable(transferred, size)
         """
         self._name_check()
-        if isinstance(data, StringIO.StringIO):
-            pass
-        elif isinstance(data, cStringIO.InputType):
-            pass
-        elif isinstance(data, cStringIO.OutputType):
-            pass
-        elif isinstance(data, file):
+        if isinstance(data, file):
             # pylint: disable-msg=E1101
             try:
                 data.flush()
             except IOError:
                 pass  # If the file descriptor is read-only this will fail
             self.size = int(os.fstat(data.fileno())[6])
+        elif (
+            isinstance(data, cStringIO.InputType) or
+            isinstance(data, cStringIO.OutputType)
+        ):
+            pos = data.tell()
+            data.seek(0, os.SEEK_END)
+            self.size = data.tell()
+            data.seek(pos, os.SEEK_SET)
         else:
-            data = StringIO.StringIO(data)
+            if not isinstance(data, StringIO.StringIO):
+                data = StringIO.StringIO(data)
             self.size = data.len
 
         # If override is set (and _etag is not None), then the etag has
